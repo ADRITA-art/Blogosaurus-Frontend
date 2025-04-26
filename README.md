@@ -21,20 +21,13 @@
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](screenshots/home.png)
-<!-- Add your screenshot here -->
+![image](https://github.com/user-attachments/assets/ea758289-5b65-4285-b5be-43e9a109dec3)
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
-<!-- Add your screenshot here -->
+![image](https://github.com/user-attachments/assets/170594ae-119c-45eb-ada6-4a033dcad70f)
 
 ### Create Blog
-![Create Blog](screenshots/create-blog.png)
-<!-- Add your screenshot here -->
-
-### Blog Modal
-![Blog Modal](screenshots/blog-modal.png)
-<!-- Add your screenshot here -->
+![image](https://github.com/user-attachments/assets/19501f04-ae42-4027-bb90-1dded4e85be0)
 
 ---
 
