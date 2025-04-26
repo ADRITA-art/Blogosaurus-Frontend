@@ -12,22 +12,7 @@ import {
   Modal,
   Fade,
   Backdrop,
-  createTheme,
-  ThemeProvider,
 } from '@mui/material';
-
-const accentBlue = '#1565c0'; // Darker blue
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: { main: accentBlue },
-    background: { default: '#181a1b', paper: '#23272f' },
-  },
-  typography: {
-    fontFamily: 'inherit',
-  },
-});
 
 export default function CreateBlog() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -35,7 +20,6 @@ export default function CreateBlog() {
   const [submitting, setSubmitting] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  // Watch form fields for preview
   const title = watch('title', '');
   const content = watch('content', '');
 
@@ -53,8 +37,19 @@ export default function CreateBlog() {
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ position: 'relative', minHeight: '100vh', width: '100vw', overflowX: 'hidden' }}>
+      {/* Gradient Background */}
+      <Box
+        sx={{
+          position: 'fixed',
+          inset: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 0,
+          background: 'linear-gradient(120deg, #181a1b 60%, #1565c0 100%)',
+        }}
+      />
+      <Box sx={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
         <Navbar />
         <Box
           sx={{
@@ -70,10 +65,11 @@ export default function CreateBlog() {
             sx={{
               p: 6,
               borderRadius: 4,
-              bgcolor: 'background.paper',
+              bgcolor: '#fff', // Make Paper background white
               width: '100%',
-              maxWidth: 900, // Bigger box
+              maxWidth: 900,
               minHeight: 600,
+              boxShadow: '0 8px 32px 0 rgba(21,101,192,0.25)',
             }}
           >
             <Typography
@@ -125,8 +121,8 @@ export default function CreateBlog() {
                     color: 'primary.main',
                     transition: 'background 0.2s, color 0.2s',
                     '&:hover': {
-                      backgroundColor: 'rgba(21,101,192,0.15)', // semi-transparent dark blue
-                      color: '#fff', // white text on hover for contrast
+                      backgroundColor: 'rgba(21,101,192,0.15)',
+                      color: '#fff',
                       borderColor: 'primary.main',
                     },
                   }}
@@ -156,7 +152,7 @@ export default function CreateBlog() {
           slotProps={{
             backdrop: {
               timeout: 400,
-              sx: { backgroundColor: 'rgba(24,26,27,0.95)' },
+              sx: { backgroundColor: 'rgba(24,26,27,0.85)' },
             },
           }}
         >
@@ -168,14 +164,15 @@ export default function CreateBlog() {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 width: { xs: '90vw', sm: 700 },
-                bgcolor: 'rgba(35,39,47,0.92)', // Transparent modal
+                bgcolor: 'background.paper',
                 borderRadius: 4,
                 boxShadow: 24,
                 p: 5,
                 outline: 'none',
-                backdropFilter: 'blur(4px)',
-                maxHeight: '80vh', // Limit modal height
-                overflowY: 'auto', // Enable vertical scroll
+                border: '1.5px solid',
+                borderColor: 'primary.main',
+                maxHeight: '80vh',
+                overflowY: 'auto',
               }}
             >
               <Typography
@@ -223,6 +220,6 @@ export default function CreateBlog() {
           </Fade>
         </Modal>
       </Box>
-    </ThemeProvider>
+    </Box>
   );
-} 
+}
