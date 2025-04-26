@@ -16,7 +16,12 @@ export default function Login() {
       setIsLoading(true);
       setError('');
       const response = await login(data);
-      localStorage.setItem('token', response.data.token);
+      // Save the JWT token for authenticated requests
+      if (response.access_token) {
+        localStorage.setItem('token', response.access_token);
+      }
+      localStorage.setItem('username', response.username);
+      localStorage.setItem('user_id', response.user_id);
       navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.');

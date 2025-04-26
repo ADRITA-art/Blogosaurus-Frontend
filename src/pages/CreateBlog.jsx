@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { createBlog } from '../api/blogApi';
@@ -19,6 +19,14 @@ export default function CreateBlog() {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [authError, setAuthError] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const title = watch('title', '');
   const content = watch('content', '');
@@ -26,10 +34,15 @@ export default function CreateBlog() {
   const onSubmit = async (data) => {
     try {
       setSubmitting(true);
-      const token = localStorage.getItem('token');
-      await createBlog(data, token);
+      await createBlog(data);
       navigate('/dashboard');
     } catch (error) {
+      if (error.message === 'Not authenticated') {
+        setAuthError('You must be logged in to create a blog.');
+        navigate('/login');
+      } else {
+        setAuthError('Failed to create blog.');
+      }
       console.error('Failed to create blog:', error);
     } finally {
       setSubmitting(false);

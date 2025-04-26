@@ -21,16 +21,18 @@ const fallbackImg = "/assets/undraw_blogging_t042.svg";
 export default function Index() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBlog, setSelectedBlog] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadBlogs = async () => {
       try {
-        const response = await fetchBlogs();
-        setBlogs(response.data);
+        const response = await fetch('http://127.0.0.1:5000/');
+        const data = await response.json();
+        setBlogs(data.blogs || []);
         setLoading(false);
       } catch (error) {
-        console.error('Failed to load blogs:', error);
+        setBlogs([]);
         setLoading(false);
       }
     };
@@ -137,71 +139,97 @@ export default function Index() {
                 >
                   Be the first to create one!
                 </Button>
+                {/* Static template blog card for demonstration */}
+                <Box sx={{ mt: 6, display: 'flex', justifyContent: 'center' }}>
+                  <Card sx={{ maxWidth: 400, bgcolor: 'background.paper', borderRadius: 3, boxShadow: 6 }}>
+                    <CardContent>
+                      <Typography variant="h6" fontWeight={700} sx={{ color: 'primary.main', mb: 1 }}>
+                        Example Blog Title
+                      </Typography>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        by Example Author
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2, minHeight: 48 }}>
+                        This is a static example blog post. When you create a blog, it will appear here!
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
               </Box>
             </Fade>
           ) : (
-            <Grid container spacing={4}>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
               {blogs.map(blog => (
-                <Grid item xs={12} sm={6} md={4} key={blog.id}>
-                  <Fade in timeout={600}>
-                    <Card
-                      sx={{
-                        bgcolor: 'background.paper',
-                        borderRadius: 3,
-                        boxShadow: 6,
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        transition: 'transform 0.2s, box-shadow 0.2s',
-                        '&:hover': {
-                          transform: 'translateY(-6px) scale(1.03)',
-                          boxShadow: 12,
-                        },
-                      }}
-                    >
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                          <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
-                            <Person />
-                          </Avatar>
-                          <Typography variant="subtitle2" color="text.secondary">
-                            {blog.author || 'Anonymous'}
-                          </Typography>
-                        </Box>
-                        <Typography
-                          variant="h6"
-                          fontWeight={700}
-                          sx={{ color: 'primary.main', mb: 1 }}
-                        >
-                          {blog.title}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ mb: 2, minHeight: 48 }}
-                        >
-                          {blog.content?.substring(0, 120)}...
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          component={Link}
-                          to={`/view/${blog.id}`}
-                          size="small"
-                          color="primary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          Read More
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Fade>
-                </Grid>
+                <li
+                  key={blog.id}
+                  style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: 8, cursor: 'pointer', background: '#fff' }}
+                  onClick={() => setSelectedBlog(blog)}
+                >
+                  <h3 style={{ color: '#23272f', marginBottom: 8 }}>{blog.title}</h3>
+                  <p style={{ color: '#23272f', marginBottom: 8 }}>
+                    {blog.content.length > 100 ? blog.content.substring(0, 100) + '...' : blog.content}
+                  </p>
+                  <p style={{ color: '#1565c0', marginBottom: 0 }}>By User #{blog.author_id}</p>
+                </li>
               ))}
-            </Grid>
+            </ul>
           )}
         </Box>
       </Box>
+      {/* Blog Modal */}
+      {selectedBlog && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setSelectedBlog(null)}
+        >
+          <div
+            style={{
+              background: '#fff',
+              padding: '2rem',
+              borderRadius: 12,
+              maxWidth: 600,
+              width: '90vw',
+              boxShadow: '0 8px 32px 0 rgba(21,101,192,0.25)',
+              position: 'relative',
+              color: '#23272f',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedBlog(null)}
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 16,
+                background: 'none',
+                border: 'none',
+                fontSize: 24,
+                cursor: 'pointer',
+                color: '#1565c0',
+              }}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h2 style={{ color: '#1565c0', marginBottom: 12 }}>{selectedBlog.title}</h2>
+            <p style={{ color: '#23272f', marginBottom: 16 }}>{selectedBlog.content}</p>
+            <p style={{ color: '#1565c0', fontWeight: 600 }}>By User #{selectedBlog.author_id}</p>
+          </div>
+        </div>
+      )}
     </>
   );
 } 
