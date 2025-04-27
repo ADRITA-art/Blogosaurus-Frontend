@@ -141,7 +141,7 @@ src/
    npm start
    ```
 
-4. **Make sure your backend is running and accessible at `http://127.0.0.1:5000` (or update the API URLs in `src/api/`).**
+4. **Make sure your backend is running and accessible at `https://blogosaurus-1.onrender.com` (or update the API URLs in `src/api/`).**
 
 ---
 

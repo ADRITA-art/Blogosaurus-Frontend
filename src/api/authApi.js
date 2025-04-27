@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://blogosaurus-1.onrender.com";
 
 export async function login(data) {
   const res = await fetch(`${API_URL}/login`, {
@@ -21,7 +21,7 @@ export async function signup(data) {
 }
 
 export async function createBlog(data) {
-  const res = await fetch(`http://127.0.0.1:5000/create`, {
+  const res = await fetch(`https://blogosaurus-1.onrender.com/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

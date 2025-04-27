@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:5000';
+const API_URL = 'https://blogosaurus-1.onrender.com';
 
 export const fetchBlogs = () => axios.get(`${API_URL}/`);
 export const fetchBlog = (id) => axios.get(`${API_URL}/${id}/`);
@@ -8,7 +8,7 @@ export const fetchBlog = (id) => axios.get(`${API_URL}/${id}/`);
 export async function createBlog(data) {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('Not authenticated');
-  const res = await fetch('http://127.0.0.1:5000/create', {
+  const res = await fetch('https://blogosaurus-1.onrender.com/create', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

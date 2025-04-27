@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Menu as MenuIcon } from '@mui/icons-material';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem('token');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -17,20 +23,27 @@ export default function Navbar() {
           Blogosaurus
         </Link>
         
-        <div className="navbar-links">
-          <Link to="/" className="nav-link">Home</Link>
+        <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
+          <MenuIcon />
+        </button>
+        
+        <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
+          <Link to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           {isAuthenticated ? (
             <>
-              <Link to="/dashboard" className="nav-link">Dashboard</Link>
-              <Link to="/create" className="nav-link">Create Blog</Link>
-              <button onClick={handleLogout} className="nav-link logout-btn">
+              <Link to="/dashboard" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Dashboard</Link>
+              <Link to="/create" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Create Blog</Link>
+              <button onClick={() => {
+                handleLogout();
+                setIsMobileMenuOpen(false);
+              }} className="nav-link logout-btn">
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="nav-link">Login</Link>
-              <Link to="/signup" className="nav-link">Sign Up</Link>
+              <Link to="/login" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+              <Link to="/signup" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
             </>
           )}
         </div>

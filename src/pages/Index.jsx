@@ -27,7 +27,7 @@ export default function Index() {
   useEffect(() => {
     const loadBlogs = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/');
+        const response = await fetch('https://blogosaurus-1.onrender.com/');
         const data = await response.json();
         setBlogs(data.blogs || []);
         setLoading(false);
@@ -67,6 +67,8 @@ export default function Index() {
               letterSpacing: 2,
               textShadow: '0 4px 24px rgba(21,101,192,0.25)',
               fontSize: { xs: '2.2rem', md: '3.5rem' },
+              textAlign: 'center',
+              width: '100%',
             }}
           >
             Welcome to Blogosaurus
@@ -78,6 +80,8 @@ export default function Index() {
               mb: 4,
               fontWeight: 400,
               fontSize: { xs: '1.1rem', md: '1.5rem' },
+              textAlign: 'center',
+              width: '100%',
             }}
           >
             Your personal blogging platform

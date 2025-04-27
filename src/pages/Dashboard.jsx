@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchDashboard } from '../api/blogApi';
+import Navbar from '../components/Navbar';
 
 export default function Dashboard() {
   const [blogs, setBlogs] = useState([]);
@@ -37,7 +38,7 @@ export default function Dashboard() {
   }, [navigate]);
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', width: '100vw', overflowX: 'hidden' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', width: '100vw', overflowX: 'hidden', background: 'transparent' }}>
       {/* Gradient Background */}
       <div
         style={{
@@ -49,13 +50,14 @@ export default function Dashboard() {
           background: 'linear-gradient(120deg, #181a1b 60%, #1565c0 100%)',
         }}
       />
-      <div style={{ position: 'relative', zIndex: 1, minHeight: '100vh', maxWidth: 1000, margin: '0 auto', padding: '2rem' }}>
-        <h1 style={{ color: '#fff', fontWeight: 700, marginBottom: 16 }}>Dashboard</h1>
-        {username && <h2 style={{ color: '#bdbdbd', marginBottom: 32 }}>Welcome, {username}!</h2>}
-        <Link to="/create" style={{ color: '#1565c0', fontWeight: 600, marginBottom: 32, display: 'inline-block' }}>Create New Blog</Link>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', marginTop: 32 }}>
+      <Navbar />
+      <div style={{ position: 'relative', zIndex: 1, minHeight: '100vh', maxWidth: 1000, margin: '0 auto', padding: '2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
+        <h1 style={{ color: '#fff', fontWeight: 700, marginBottom: 16, width: '100%', textAlign: 'left', maxWidth: 600 }}>Dashboard</h1>
+        {username && <h2 style={{ color: '#bdbdbd', marginBottom: 32, width: '100%', textAlign: 'left', maxWidth: 600 }}>Welcome, {username}!</h2>}
+        <Link to="/create" style={{ color: '#1565c0', fontWeight: 600, marginBottom: 32, display: 'inline-block', width: '100%', maxWidth: 600, textAlign: 'left' }}>Create New Blog</Link>
+        <div style={{ width: '100%', maxWidth: 600, display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: 16, padding: '0 0.5rem', boxSizing: 'border-box' }}>
           {blogs.length === 0 ? (
-            <div style={{ color: '#fff', fontSize: 18 }}>No blogs found.</div>
+            <div style={{ color: '#fff', fontSize: 18, textAlign: 'center' }}>No blogs found.</div>
           ) : (
             blogs.map(blog => (
               <div
@@ -65,13 +67,15 @@ export default function Dashboard() {
                   borderRadius: 12,
                   boxShadow: '0 8px 32px 0 rgba(21,101,192,0.15)',
                   padding: '1.5rem',
-                  minWidth: 280,
-                  maxWidth: 350,
-                  flex: '1 1 300px',
+                  minWidth: 0,
+                  maxWidth: '100%',
+                  width: '100%',
                   cursor: 'pointer',
                   transition: 'transform 0.2s, box-shadow 0.2s',
                   color: '#23272f',
-                  marginBottom: 16,
+                  margin: '0 auto',
+                  wordBreak: 'break-word',
+                  boxSizing: 'border-box',
                 }}
                 onClick={() => setSelectedBlog(blog)}
               >
@@ -96,21 +100,25 @@ export default function Dashboard() {
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 1000,
+              padding: '1rem',
+              boxSizing: 'border-box',
             }}
             onClick={() => setSelectedBlog(null)}
           >
             <div
               style={{
                 background: '#fff',
-                padding: '2rem',
+                padding: '1.5rem',
                 borderRadius: 12,
-                maxWidth: 600,
-                width: '90vw',
+                maxWidth: '95vw',
+                width: '95vw',
                 boxShadow: '0 8px 32px 0 rgba(21,101,192,0.25)',
                 position: 'relative',
                 color: '#23272f',
                 maxHeight: '80vh',
                 overflowY: 'auto',
+                margin: '0 auto',
+                boxSizing: 'border-box',
               }}
               onClick={e => e.stopPropagation()}
             >
